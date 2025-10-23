@@ -53,10 +53,8 @@ int main() {
                 continue;
             }
             std::cout << "Ввод: центр_x центр_y радиус (через пробел): ";
-            double cx;
-            double cy;
-            double r;
-            if (!(std::cin >> cx >> cy >> r)) {
+            double x = 0, y = 0, r = 0;
+            if (!(std::cin >> x >> y >> r)) {
                 std::cout << "Неверный ввод\n";
                 std::string restOfLine;
                 std::getline(std::cin, restOfLine);
@@ -66,13 +64,13 @@ int main() {
                 std::getline(std::cin, restOfLine);
             }
             if (n == 5) {
-                Figure* f = new Pentagon(cx, cy, r);
-                arr.pushBack(f);
+                Figure* figure = new Pentagon(x, y, r);
+                arr.pushBack(figure);
             } else if (n == 6) {
-                Figure* f = new Hexagon(cx, cy, r);
+                Figure* f = new Hexagon(x, y, r);
                 arr.pushBack(f);
             } else {
-                Figure* f = new Octagon(cx, cy, r);
+                Figure* f = new Octagon(x, y, r);
                 arr.pushBack(f);
             }
             std::cout << "Добавлено n = " << n << "\n";
