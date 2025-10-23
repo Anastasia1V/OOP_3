@@ -11,13 +11,13 @@ std::istream& operator>>(std::istream& is, Figure& figure) {
 }
 
 Polygon::Polygon()
-    : n(3), cx(0.0), cy(0.0), radius(1.0), verts()
+    : n(3), x(0.0), y(0.0), radius(1.0), vect()
 {
     findVertices();
 }
 
 Polygon::Polygon(int sides, double x, double y, double r)
-    : n(sides), cx(x), cy(y), radius(r), verts()
+    : n(sides), x(x), y(y), radius(r), vect()
 {
     if (n < 3) {
         throw std::invalid_argument("Число сторон должно быть >= 3");
@@ -29,16 +29,16 @@ Polygon::Polygon(int sides, double x, double y, double r)
 }
 
 Polygon::Polygon(const Polygon& other)
-    : n(other.n), cx(other.cx), cy(other.cy), radius(other.radius), verts(other.verts)
+    : n(other.n), x(other.x), y(other.y), radius(other.radius), vect(other.vect)
 {
 }
 
 Polygon::Polygon(Polygon&& other)
-    : n(other.n), cx(other.cx), cy(other.cy), radius(other.radius), verts(std::move(other.verts))
+    : n(other.n), x(other.x), y(other.y), radius(other.radius), vect(std::move(other.vect))
 {
     other.n = 0;
-    other.cx = 0.0;
-    other.cy = 0.0;
+    other.x = 0.0;
+    other.y = 0.0;
     other.radius = 0.0;
 }
 
@@ -51,17 +51,17 @@ Figure* Polygon::clone() const {
 
 Point Polygon::center() const {
     Point p;
-    p.x = cx;
-    p.y = cy;
+    p.x = x;
+    p.y = y;
     return p;
 }
 
 std::ostream& Polygon::print(std::ostream& os) const {
-    os << "Полигон n = " << n << " центр = (" << cx << ", " << cy << ") радиус = " << radius << "\n";
+    os << "Полигон n = " << n << " центр = (" << x << ", " << y << ") радиус = " << radius << "\n";
     os << "Координаты вершин: ";
-    for (std::size_t i = 0; i < verts.size(); ++i) {
-        os << "(" << verts[i].x << ", " << verts[i].y << ")";
-        if (i + 1 < verts.size()) {
+    for (std::size_t i = 0; i < vect.size(); ++i) {
+        os << "(" << vect[i].x << ", " << vect[i].y << ")";
+        if (i + 1 < vect.size()) {
             os << " ";
         }
     }
@@ -77,8 +77,8 @@ std::istream& Polygon::read(std::istream& is) {
     if (!is) {
         throw std::runtime_error("Некорректный ввод для полигона");
     } else {
-        cx = x;
-        cy = y;
+        x = x;
+        y = y;
         radius = r;
         findVertices();
     }
@@ -92,10 +92,10 @@ Polygon::operator double() const {
 Polygon& Polygon::operator=(const Polygon& other) {
     if (this != &other) {
         n = other.n;
-        cx = other.cx;
-        cy = other.cy;
+        x = other.x;
+        y = other.y;
         radius = other.radius;
-        verts = other.verts;
+        vect = other.vect;
     }
     return *this;
 }
@@ -103,13 +103,13 @@ Polygon& Polygon::operator=(const Polygon& other) {
 Polygon& Polygon::operator=(Polygon&& other) {
     if (this != &other) {
         n = other.n;
-        cx = other.cx;
-        cy = other.cy;
+        x = other.x;
+        y = other.y;
         radius = other.radius;
-        verts = std::move(other.verts);
+        vect = std::move(other.vect);
         other.n = 0;
-        other.cx = 0.0;
-        other.cy = 0.0;
+        other.x = 0.0;
+        other.y = 0.0;
         other.radius = 0.0;
     }
     return *this;
@@ -141,9 +141,9 @@ bool Polygon::equals(const Figure& other) const {
         return false;
     } else if (n != p->n) {
         return false;
-    } else if (std::abs(cx - p->cx) > 1e-9) {
+    } else if (std::abs(x - p->x) > 1e-9) {
         return false;
-    } else if (std::abs(cy - p->cy) > 1e-9) {
+    } else if (std::abs(y - p->y) > 1e-9) {
         return false;
     } else if (std::abs(radius - p->radius) > 1e-9) {
         return false;
@@ -153,35 +153,35 @@ bool Polygon::equals(const Figure& other) const {
 }
 
 const std::vector<Point>& Polygon::vertices() const noexcept {
-    return verts;
+    return vect;
 }
 
 void Polygon::findVertices() {
-    verts.clear();
-    verts.reserve(static_cast<std::size_t>(n));
+    vect.clear();
+    vect.reserve(static_cast<std::size_t>(n));
     const double PI = 3.14159265358979323846;
     double step = (2.0 * PI) / static_cast<double>(n);
     double start = 0.0;
     for (int i = 0; i < n; ++i) {
         double a = start + step * static_cast<double>(i);
-        double x = cx + radius * std::cos(a);
-        double y = cy + radius * std::sin(a);
+        double x = x + radius * std::cos(a);
+        double y = y + radius * std::sin(a);
         Point p;
         p.x = x;
         p.y = y;
-        verts.push_back(p);
+        vect.push_back(p);
     }
 }
 
 double Polygon::findArea() const {
     double sum = 0.0;
-    std::size_t m = verts.size();
+    std::size_t m = vect.size();
     if (m < 3) {
         return 0.0;
     } else {
         for (std::size_t i = 0; i < m; ++i) {
             std::size_t j = (i + 1) % m;
-            sum += verts[i].x * verts[j].y - verts[j].x * verts[i].y;
+            sum += vect[i].x * vect[j].y - vect[j].x * vect[i].y;
         }
         return std::abs(sum) * 0.5;
     }
@@ -230,56 +230,56 @@ Figure* Octagon::clone() const {
 }
 
 FiguresList::FiguresList()
-    : figuresData(nullptr), count(0), capacity(0)
+    : figures(nullptr), count(0), capacity(0)
 {
 }
 
 FiguresList::FiguresList(const FiguresList& other)
-    : figuresData(nullptr), count(0), capacity(0)
+    : figures(nullptr), count(0), capacity(0)
 {
     if (other.count > 0) {
         capacity = other.count;
-        figuresData = new Figure*[capacity];
+        figures = new Figure*[capacity];
         for (std::size_t i = 0; i < other.count; ++i) {
-            figuresData[i] = other.figuresData[i]->clone();
+            figures[i] = other.figures[i]->clone();
         }
         count = other.count;
     }
 }
 
 FiguresList::FiguresList(FiguresList&& other)
-    : figuresData(other.figuresData), count(other.count), capacity(other.capacity)
+    : figures(other.figures), count(other.count), capacity(other.capacity)
 {
-    other.figuresData = nullptr;
+    other.figures = nullptr;
     other.count = 0;
     other.capacity = 0;
 }
 
 FiguresList::~FiguresList() noexcept {
-    if (figuresData != nullptr) {
+    if (figures != nullptr) {
         for (std::size_t i = 0; i < count; ++i) {
-            delete figuresData[i];
+            delete figures[i];
         }
-        delete[] figuresData;
+        delete[] figures;
     }
 }
 
 FiguresList& FiguresList::operator=(const FiguresList& other) {
     if (this != &other) {
-        if (figuresData != nullptr) {
+        if (figures != nullptr) {
             for (std::size_t i = 0; i < count; ++i) {
-                delete figuresData[i];
+                delete figures[i];
             }
-            delete[] figuresData;
-            figuresData = nullptr;
+            delete[] figures;
+            figures = nullptr;
             count = 0;
             capacity = 0;
         }
         if (other.count > 0) {
             capacity = other.count;
-            figuresData = new Figure*[capacity];
+            figures = new Figure*[capacity];
             for (std::size_t i = 0; i < other.count; ++i) {
-                figuresData[i] = other.figuresData[i]->clone();
+                figures[i] = other.figures[i]->clone();
             }
             count = other.count;
         }
@@ -289,16 +289,16 @@ FiguresList& FiguresList::operator=(const FiguresList& other) {
 
 FiguresList& FiguresList::operator=(FiguresList&& other) {
     if (this != &other) {
-        if (figuresData != nullptr) {
+        if (figures != nullptr) {
             for (std::size_t i = 0; i < count; ++i) {
-                delete figuresData[i];
+                delete figures[i];
             }
-            delete[] figuresData;
+            delete[] figures;
         }
-        figuresData = other.figuresData;
+        figures = other.figures;
         count = other.count;
         capacity = other.capacity;
-        other.figuresData = nullptr;
+        other.figures = nullptr;
         other.count = 0;
         other.capacity = 0;
     }
@@ -307,7 +307,7 @@ FiguresList& FiguresList::operator=(FiguresList&& other) {
 
 void FiguresList::pushBack(Figure* figure) {
     expand();
-    figuresData[count] = figure;
+    figures[count] = figure;
     ++count;
 }
 
@@ -315,9 +315,9 @@ void FiguresList::removeAt(std::size_t index) {
     if (index >= count) {
         throw std::out_of_range("Индекс вне диапазона");
     } else {
-        delete figuresData[index];
+        delete figures[index];
         for (std::size_t i = index; i + 1 < count; ++i) {
-            figuresData[i] = figuresData[i + 1];
+            figures[i] = figures[i + 1];
         }
         --count;
     }
@@ -331,14 +331,14 @@ Figure* FiguresList::get(std::size_t index) const {
     if (index >= count) {
         throw std::out_of_range("Индекс вне диапазона");
     } else {
-        return figuresData[index];
+        return figures[index];
     }
 }
 
 double FiguresList::totalArea() const {
     double sum = 0.0;
     for (std::size_t i = 0; i < count; ++i) {
-        sum += static_cast<double>(*figuresData[i]);
+        sum += static_cast<double>(*figures[i]);
     }
     return sum;
 }
@@ -346,11 +346,11 @@ double FiguresList::totalArea() const {
 std::ostream& FiguresList::printAll(std::ostream& os) const {
     for (std::size_t i = 0; i < count; ++i) {
         os << "Фигура[" << i << "]\n";
-        Point c = figuresData[i]->center();
+        Point c = figures[i]->center();
         os << " центр = (" << c.x << ", " << c.y << ")\n";
-        os << " площадь = " << static_cast<double>(*figuresData[i]) << "\n";
+        os << " площадь = " << static_cast<double>(*figures[i]) << "\n";
         os << " вершины: ";
-        figuresData[i]->print(os);
+        figures[i]->print(os);
         os << "\n";
     }
     return os;
@@ -358,7 +358,7 @@ std::ostream& FiguresList::printAll(std::ostream& os) const {
 
 std::ostream& FiguresList::printCenters(std::ostream& os) const {
     for (std::size_t i = 0; i < count; ++i) {
-        Point c = figuresData[i]->center();
+        Point c = figures[i]->center();
         os << "Фигура[" << i << "] центр = (" << c.x << ", " << c.y << ")\n";
     }
     return os;
@@ -367,14 +367,14 @@ std::ostream& FiguresList::printCenters(std::ostream& os) const {
 std::ostream& FiguresList::printVertices(std::ostream& os) const {
     for (std::size_t i = 0; i < count; ++i) {
         os << "Фигура[" << i << "] вершины: ";
-        figuresData[i]->print(os);
+        figures[i]->print(os);
     }
     return os;
 }
 
 std::ostream& FiguresList::printAreas(std::ostream& os) const {
     for (std::size_t i = 0; i < count; ++i) {
-        os << "Фигура[" << i << "] площадь = " << static_cast<double>(*figuresData[i]) << "\n";
+        os << "Фигура[" << i << "] площадь = " << static_cast<double>(*figures[i]) << "\n";
     }
     return os;
 }
@@ -391,10 +391,10 @@ void FiguresList::expand() {
         }
         Figure** nd = new Figure*[newcap];
         for (std::size_t i = 0; i < count; ++i) {
-            nd[i] = figuresData[i];
+            nd[i] = figures[i];
         }
-        delete[] figuresData;
-        figuresData = nd;
+        delete[] figures;
+        figures = nd;
         capacity = newcap;
     }
 }
