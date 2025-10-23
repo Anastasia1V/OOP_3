@@ -2,7 +2,7 @@
 #include "figures.h"
 
 static double findArea(int n, double R) {
-    static const double PI = 3.14159265358979323846;
+    const double PI = 3.14159265358979323846;
     return (static_cast<double>(n) / 2.0) * R * R * std::sin(2.0 * PI / static_cast<double>(n));
 }
 
@@ -65,3 +65,4 @@ TEST(test_09, basic_test_set) {
     Octagon o(2.0, 2.0, 0.8);
     EXPECT_EQ(o.vertices().size(), 8);
 }
+
