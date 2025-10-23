@@ -229,12 +229,12 @@ Figure* Octagon::clone() const {
     return new Octagon(*this);
 }
 
-FiguresArray::FiguresArray()
+FiguresList::FiguresList()
     : figuresData(nullptr), count(0), capacity(0)
 {
 }
 
-FiguresArray::FiguresArray(const FiguresArray& other)
+FiguresList::FiguresList(const FiguresList& other)
     : figuresData(nullptr), count(0), capacity(0)
 {
     if (other.count > 0) {
@@ -247,7 +247,7 @@ FiguresArray::FiguresArray(const FiguresArray& other)
     }
 }
 
-FiguresArray::FiguresArray(FiguresArray&& other)
+FiguresList::FiguresList(FiguresList&& other)
     : figuresData(other.figuresData), count(other.count), capacity(other.capacity)
 {
     other.figuresData = nullptr;
@@ -255,7 +255,7 @@ FiguresArray::FiguresArray(FiguresArray&& other)
     other.capacity = 0;
 }
 
-FiguresArray::~FiguresArray() noexcept {
+FiguresList::~FiguresList() noexcept {
     if (figuresData != nullptr) {
         for (std::size_t i = 0; i < count; ++i) {
             delete figuresData[i];
@@ -264,7 +264,7 @@ FiguresArray::~FiguresArray() noexcept {
     }
 }
 
-FiguresArray& FiguresArray::operator=(const FiguresArray& other) {
+FiguresList& FiguresList::operator=(const FiguresList& other) {
     if (this != &other) {
         if (figuresData != nullptr) {
             for (std::size_t i = 0; i < count; ++i) {
@@ -287,7 +287,7 @@ FiguresArray& FiguresArray::operator=(const FiguresArray& other) {
     return *this;
 }
 
-FiguresArray& FiguresArray::operator=(FiguresArray&& other) {
+FiguresList& FiguresList::operator=(FiguresList&& other) {
     if (this != &other) {
         if (figuresData != nullptr) {
             for (std::size_t i = 0; i < count; ++i) {
@@ -305,13 +305,13 @@ FiguresArray& FiguresArray::operator=(FiguresArray&& other) {
     return *this;
 }
 
-void FiguresArray::pushBack(Figure* figure) {
+void FiguresList::pushBack(Figure* figure) {
     expand();
     figuresData[count] = figure;
     ++count;
 }
 
-void FiguresArray::removeAt(std::size_t index) {
+void FiguresList::removeAt(std::size_t index) {
     if (index >= count) {
         throw std::out_of_range("Индекс вне диапазона");
     } else {
@@ -323,11 +323,11 @@ void FiguresArray::removeAt(std::size_t index) {
     }
 }
 
-std::size_t FiguresArray::size() const {
+std::size_t FiguresList::size() const {
     return count;
 }
 
-Figure* FiguresArray::get(std::size_t index) const {
+Figure* FiguresList::get(std::size_t index) const {
     if (index >= count) {
         throw std::out_of_range("Индекс вне диапазона");
     } else {
@@ -335,7 +335,7 @@ Figure* FiguresArray::get(std::size_t index) const {
     }
 }
 
-double FiguresArray::totalArea() const {
+double FiguresList::totalArea() const {
     double sum = 0.0;
     for (std::size_t i = 0; i < count; ++i) {
         sum += static_cast<double>(*figuresData[i]);
@@ -343,7 +343,7 @@ double FiguresArray::totalArea() const {
     return sum;
 }
 
-std::ostream& FiguresArray::printAll(std::ostream& os) const {
+std::ostream& FiguresList::printAll(std::ostream& os) const {
     for (std::size_t i = 0; i < count; ++i) {
         os << "Фигура[" << i << "]\n";
         Point c = figuresData[i]->center();
@@ -356,7 +356,7 @@ std::ostream& FiguresArray::printAll(std::ostream& os) const {
     return os;
 }
 
-std::ostream& FiguresArray::printCenters(std::ostream& os) const {
+std::ostream& FiguresList::printCenters(std::ostream& os) const {
     for (std::size_t i = 0; i < count; ++i) {
         Point c = figuresData[i]->center();
         os << "Фигура[" << i << "] центр = (" << c.x << ", " << c.y << ")\n";
@@ -364,7 +364,7 @@ std::ostream& FiguresArray::printCenters(std::ostream& os) const {
     return os;
 }
 
-std::ostream& FiguresArray::printVertices(std::ostream& os) const {
+std::ostream& FiguresList::printVertices(std::ostream& os) const {
     for (std::size_t i = 0; i < count; ++i) {
         os << "Фигура[" << i << "] вершины: ";
         figuresData[i]->print(os);
@@ -372,14 +372,14 @@ std::ostream& FiguresArray::printVertices(std::ostream& os) const {
     return os;
 }
 
-std::ostream& FiguresArray::printAreas(std::ostream& os) const {
+std::ostream& FiguresList::printAreas(std::ostream& os) const {
     for (std::size_t i = 0; i < count; ++i) {
         os << "Фигура[" << i << "] площадь = " << static_cast<double>(*figuresData[i]) << "\n";
     }
     return os;
 }
 
-void FiguresArray::expand() {
+void FiguresList::expand() {
     if (count + 1 <= capacity) {
         return;
     } else {
