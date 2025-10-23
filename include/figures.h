@@ -36,7 +36,7 @@ class Polygon : public Figure
 {
 public:
     Polygon();
-    Polygon(int sides, double cx, double cy, double r);
+    Polygon(int sides, double x, double y, double r);
     Polygon(const Polygon& other);
     Polygon(Polygon&& other);
     ~Polygon();
@@ -56,17 +56,17 @@ protected:
     void findVertices();
     double findArea() const;
     int n;
-    double cx;
-    double cy;
+    double x;
+    double y;
     double radius;
-    std::vector<Point> verts;
+    std::vector<Point> vect;
 };
 
 class Pentagon : public Polygon
 {
 public:
     Pentagon();
-    Pentagon(double cx, double cy, double r);
+    Pentagon(double x, double y, double r);
     Figure* clone() const;
 };
 
@@ -74,7 +74,7 @@ class Hexagon : public Polygon
 {
 public:
     Hexagon();
-    Hexagon(double cx, double cy, double r);
+    Hexagon(double x, double y, double r);
     Figure* clone() const;
 };
 
@@ -82,7 +82,7 @@ class Octagon : public Polygon
 {
 public:
     Octagon();
-    Octagon(double cx, double cy, double r);
+    Octagon(double x, double y, double r);
     Figure* clone() const;
 };
 
@@ -107,7 +107,7 @@ public:
 
 private:
     void expand();
-    Figure** figuresData;
+    Figure** figures;
     std::size_t count;
     std::size_t capacity;
 };
