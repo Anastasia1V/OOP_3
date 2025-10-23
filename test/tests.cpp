@@ -4,9 +4,8 @@
 #include <cmath>
 #include <string>
 
-static const double PI = 3.14159265358979323846;
-
 static double expected_regular_polygon_area(int n, double R) {
+    static const double PI = 3.14159265358979323846;
     return (static_cast<double>(n) / 2.0) * R * R * std::sin(2.0 * PI / static_cast<double>(n));
 }
 
@@ -176,3 +175,4 @@ int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
+
