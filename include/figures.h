@@ -111,8 +111,3 @@ private:
     std::size_t count;
     std::size_t capacity;
 };
-
-inline bool operator==(const Figure& lhs, const Figure& rhs)
-{
-    return lhs.equals(rhs);
-}
