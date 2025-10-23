@@ -6,12 +6,14 @@
 #include <stdexcept>
 #include <string>
 
-struct Point {
+struct Point
+{
     double x;
     double y;
 };
 
-class Figure {
+class Figure
+{
 public:
     Figure() = default;
     Figure(const Figure&) = default;
@@ -30,7 +32,8 @@ public:
 std::ostream& operator<<(std::ostream& os, const Figure& f);
 std::istream& operator>>(std::istream& is, Figure& f);
 
-class Polygon : public Figure {
+class Polygon : public Figure
+{
 public:
     Polygon();
     Polygon(int sides, double x, double y, double r);
@@ -59,28 +62,32 @@ protected:
     std::vector<Point> vect;
 };
 
-class Pentagon : public Polygon {
+class Pentagon : public Polygon
+{
 public:
     Pentagon();
     Pentagon(double x, double y, double r);
     Figure* clone() const;
 };
 
-class Hexagon : public Polygon {
+class Hexagon : public Polygon
+{
 public:
     Hexagon();
     Hexagon(double x, double y, double r);
     Figure* clone() const;
 };
 
-class Octagon : public Polygon {
+class Octagon : public Polygon
+{
 public:
     Octagon();
     Octagon(double x, double y, double r);
     Figure* clone() const;
 };
 
-class FiguresList {
+class FiguresList
+{
 public:
     FiguresList();
     FiguresList(const FiguresList& other);
@@ -104,4 +111,3 @@ private:
     std::size_t count;
     std::size_t capacity;
 };
-
