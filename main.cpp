@@ -3,7 +3,7 @@
 #include <string>
 
 int main() {
-    FiguresArray arr;
+    FiguresList arr;
     std::cout << "    Команды\n";
     std::cout << "Ввести 5-угольник: add 5\n";
     std::cout << "Ввести 6-угольник: add 6\n";
