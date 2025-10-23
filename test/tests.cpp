@@ -1,7 +1,5 @@
 #include <gtest/gtest.h>
 #include "figures.h"
-#include <cmath>
-#include <string>
 
 static double findArea(int n, double R) {
     static const double PI = 3.14159265358979323846;
@@ -10,17 +8,17 @@ static double findArea(int n, double R) {
 
 TEST(test_01, basic_test_set) {
     Pentagon p(0.0, 0.0, 1.0);
-    Point c = p.center();
-    EXPECT_NEAR(c.x, 0.0, 1e-9);
-    EXPECT_NEAR(c.y, 0.0, 1e-9);
+    Point q = p.center();
+    EXPECT_NEAR(q.x, 0.0, 1e-9);
+    EXPECT_NEAR(q.y, 0.0, 1e-9);
 }
 
 TEST(test_02, basic_test_set) {
     double R = 1.0;
     Pentagon p(0.0, 0.0, R);
-    double area = static_cast<double>(p);
-    double expect = findArea(5, R);
-    EXPECT_NEAR(area, expect, 1e-6);
+    double a = static_cast<double>(p);
+    double v = findArea(5, R);
+    EXPECT_NEAR(a, v, 1e-6);
 }
 
 TEST(test_03, basic_test_set) {
@@ -38,9 +36,9 @@ TEST(test_04, basic_test_set) {
 TEST(test_05, basic_test_set) {
     double R = 2.0;
     Hexagon h(0.0, 0.0, R);
-    double area = static_cast<double>(h);
-    double expect = findArea(6, R);
-    EXPECT_NEAR(area, expect, 1e-6);
+    double a = static_cast<double>(h);
+    double v = findArea(6, R);
+    EXPECT_NEAR(a, v, 1e-6);
 }
 
 TEST(test_06, basic_test_set) {
@@ -58,9 +56,9 @@ TEST(test_07, basic_test_set) {
 TEST(test_08, basic_test_set) {
     double R = 3.0;
     Octagon o(0.0, 0.0, R);
-    double area = static_cast<double>(o);
-    double expect = findArea(8, R);
-    EXPECT_NEAR(area, expect, 1e-6);
+    double a = static_cast<double>(o);
+    double v = findArea(8, R);
+    EXPECT_NEAR(a, v, 1e-6);
 }
 
 TEST(test_09, basic_test_set) {
