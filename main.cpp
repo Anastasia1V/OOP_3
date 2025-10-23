@@ -2,8 +2,7 @@
 #include <iostream>
 #include <string>
 
-int main() {
-    FiguresList arr;
+void help() {
     std::cout << "    Команды\n";
     std::cout << "Ввести 5-угольник: add 5\n";
     std::cout << "Ввести 6-угольник: add 6\n";
@@ -14,7 +13,13 @@ int main() {
     std::cout << "Показать площади всех фигур: areas\n";
     std::cout << "Показать все сведения по каждой фигуре: list\n";
     std::cout << "Показать общую площадь: total\n";
+    std::cout << "Показать эту справку снова: help\n";
     std::cout << "Выход из программы: exit\n";
+}
+
+int main() {
+    FiguresList arr;
+    help();
     while (true) {
         std::cout << "> ";
         std::string v;
