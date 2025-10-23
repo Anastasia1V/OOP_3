@@ -86,15 +86,15 @@ public:
     Figure* clone() const;
 };
 
-class FiguresArray
+class FiguresList
 {
 public:
-    FiguresArray();
-    FiguresArray(const FiguresArray& other);
-    FiguresArray(FiguresArray&& other);
-    ~FiguresArray() noexcept;
-    FiguresArray& operator=(const FiguresArray& other);
-    FiguresArray& operator=(FiguresArray&& other);
+    FiguresList();
+    FiguresList(const FiguresList& other);
+    FiguresList(FiguresList&& other);
+    ~FiguresList() noexcept;
+    FiguresList& operator=(const FiguresList& other);
+    FiguresList& operator=(FiguresList&& other);
     void pushBack(Figure* f);
     void removeAt(std::size_t index);
     std::size_t size() const;
